@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     private float _speed = 3.5f;
+    [SerializeField]
+    private GameObject _laserPrefab;
     void Start()
     {
         transform.position = new Vector3(0, -4.89f, 0);
@@ -16,7 +18,17 @@ public class Player : MonoBehaviour
     void Update()
     {
         calculateMovement();
+        shootLaser();
     }
+    void shootLaser() {
+        if(Input.GetKeyDown(KeyCode.Space)) {
+           Instantiate(_laserPrefab, transform.position + new Vector3(0,1,0), Quaternion.identity);
+ 
+        }
+        
+
+    }
+
     void calculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
