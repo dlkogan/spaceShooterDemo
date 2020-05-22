@@ -6,12 +6,17 @@ public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private float _speed = 3.5f;
+    private float _speed = 5f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+    [SerializeField]
     private bool _tripleShot = false;
+    [SerializeField]
+    private GameObject _shieldObject;
+    private bool _speedUp = false;
+    private bool _shieldsUp = false;
     [SerializeField]
     private float _fireRate = 0.2f;
     private float _nextFire = 0.0f;
@@ -85,26 +90,59 @@ public class Player : MonoBehaviour
     }
 
     public void damage(int n) {
-        _lives -= n;
-        if(_lives < 1) {
-            _spawnManager.onDeath();
-            Destroy(this.gameObject);
+        if(!_shieldsUp) {
+            _lives -= n;
+            if(_lives < 1) {
+                _spawnManager.onDeath();
+                Destroy(this.gameObject);
             
+            }
+        } else {
+            _shieldsUp = false;
+            _shieldObject.SetActive(false);
+            return;
         }
+
     }
 
-    public void toggleTripleShot() {
-        _tripleShot = true;
-        StartCoroutine(tripleShotCoolDown());
-    }
-
-    IEnumerator tripleShotCoolDown() {
-        while(_tripleShot) {
-            yield return new WaitForSeconds(6.0f);
-            _tripleShot = false;
+    public void togglePowerup(string powerType) {
+        if(powerType == "tripleShot") {
+            _tripleShot = true;
+            StartCoroutine(powerUpCoolDown(powerType));
+            
+        } else if(powerType == "speedUp") {
+            _speed = 10f;
+            _speedUp = true;
+            StartCoroutine(powerUpCoolDown(powerType));
+            
+        } else if(powerType == "shieldsUp") {
+            _shieldsUp = true;
+            _shieldObject.SetActive(true);
+        } else {
+            Debug.Log("That's not a real powerup!");
         }
+
         
-    } 
+
+    }
+
+    IEnumerator powerUpCoolDown(string powerType) {
+        if(powerType == "tripleShot") {
+            while(_tripleShot) {
+                yield return new WaitForSeconds(6.0f);
+                _tripleShot = false;
+            }
+        } else if (powerType == "speedUp") {
+            while(_speedUp) {
+                yield return new WaitForSeconds(6.0f);
+                _speed = 5f;
+                _speedUp = false;
+            }
+        }
+
+        
+    }
+ 
 
     
 }
