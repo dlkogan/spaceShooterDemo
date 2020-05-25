@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     {
         if(_isGameOver) {
             if(Input.GetKeyDown(KeyCode.R)) {
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(1); //main game scene
             }
         }
     }
