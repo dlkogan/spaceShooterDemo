@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,10 +11,11 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private GameObject _laserPrefab;
+    private Player _player;
   
     void Start()
     {
-        
+         _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -38,7 +40,13 @@ public class Enemy : MonoBehaviour
         }
         if(other.tag == "Laser") {
             Destroy(other.gameObject);
+            if(_player != null) {
+                _player.updateScore(10);
+            }
             Destroy(this.gameObject);
+           
+            
+            
             
         }
     }

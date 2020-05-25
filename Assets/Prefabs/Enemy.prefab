@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _laserPrefab: {fileID: 0}
+  _laserPrefab: {fileID: 6886156400022383858, guid: 91dfb513d9a1ffc4cbf6e1288577c797,
+    type: 3}
 --- !u!212 &1609564695918456882
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2038890775
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3154912113cbb4a498df6f571c74e18c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -22,17 +22,24 @@ public class Player : MonoBehaviour
     private float _nextFire = 0.0f;
     [SerializeField]
     private int _lives = 3;
-    [SerializeField]
     //initialize spawnManager
     private SpawnManager _spawnManager;
+    [SerializeField]
+    private int _score = 0;
+    private UIManager _uiManager;
 
 
     void Start()
     {
+        
         transform.position = new Vector3(0, -4.89f, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-        if(_spawnManager != null) {
+        if(_spawnManager == null) {
             Debug.Log("SpawnManager is null");
+        }
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if(_uiManager == null) {
+            Debug.Log("ui manager is null");
         }
         
     }
@@ -92,6 +99,7 @@ public class Player : MonoBehaviour
     public void damage(int n) {
         if(!_shieldsUp) {
             _lives -= n;
+            _uiManager.updateLives(_lives);
             if(_lives < 1) {
                 _spawnManager.onDeath();
                 Destroy(this.gameObject);
@@ -141,6 +149,11 @@ public class Player : MonoBehaviour
         }
 
         
+    }
+
+    public void updateScore(int points) {
+        _score += points;
+        _uiManager.updateScoreText(_score);
     }
  
 
