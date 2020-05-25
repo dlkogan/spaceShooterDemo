@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
@@ -14,19 +15,26 @@ public class UIManager : MonoBehaviour
     private Image _livesIMG;
     [SerializeField]
     private Text _gameOver;
-    private bool _isGameOver = false;
+    [SerializeField]
+    private Text _restartText;
+    private GameManager _gameManager;
 
     void Start()
     {
-        _gameOver.transform.gameObject.SetActive(false);
+        _gameOver.text = "";
+        _restartText.transform.gameObject.SetActive(false);
         _livesIMG.sprite = _livesSprites[3];
         _score.text = "Score: " + 0;
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if(_gameManager == null) {
+            Debug.LogError("GameManager is NULL");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void updateScoreText(int newScore) {
         _score.text = "Score: " + newScore.ToString();
@@ -34,17 +42,22 @@ public class UIManager : MonoBehaviour
     public void updateLives(int livesIMGIndex) {
         _livesIMG.sprite = _livesSprites[livesIMGIndex];
         if(livesIMGIndex == 0) {
-            _isGameOver = true;
-            StartCoroutine(gameOverFlicker());
+            gameOverSequence();
         }
     }
-    //Create a flicker IEnumerator
-    //if lives is 0 start this coRoutine
-    void gameOverFlicker() {
-        while(_isGameOver) {
-            bool isVis = true;
-            yield return new WaitForSeconds(0.4f);
-            _gameOver.transform.gameObject.SetActive(!isVis);
+    
+    void gameOverSequence() {
+        _gameManager.endGame();
+        _gameOver.text = "GAME OVER";
+        _restartText.transform.gameObject.SetActive(true);
+        StartCoroutine(gameOverFlicker());
+    }
+    IEnumerator gameOverFlicker() {
+        while(true) {
+            _gameOver.text = "GAME OVER";
+            yield return new WaitForSeconds(Random.Range(0.09f, 1f));
+            _gameOver.text = "";
+            yield return new WaitForSeconds(Random.Range(0.09f, 1f));
         }
     }
 }
