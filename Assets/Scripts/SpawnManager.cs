@@ -13,11 +13,14 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _powerUps;
     [SerializeField]
+    private GameObject _asteroidPrefab;
+    [SerializeField]
     private bool _stopSpawning = false;
     void Start()
     {
         StartCoroutine(spawnEnemyRoutine());
         StartCoroutine(spawnPowerUpRoutine());
+        StartCoroutine(spawnAsteroidRoutine());
         
     }
 
@@ -32,6 +35,13 @@ public class SpawnManager : MonoBehaviour
             //MAKE SURE YOU PARENT IT TO THE TRANSFORM; ENEMYCONTAINER ITSELF IS NOT A TRANSFORM
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(5.0f);
+        }
+    }
+
+    IEnumerator spawnAsteroidRoutine() {
+        while(!_stopSpawning) {
+            GameObject newRoid = Instantiate(_asteroidPrefab, new Vector3(Random.Range(-10f, 10f), 5f, 0), Quaternion.identity);
+            yield return new WaitForSeconds(6f);
         }
     }
 

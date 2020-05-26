@@ -1073,6 +1073,8 @@ MonoBehaviour:
   - {fileID: 2538364981729459476, guid: aff51adc64b93734386cd04a625ad0af, type: 3}
   - {fileID: 8021941913920360699, guid: 48a6438ce59b4da459e058798e7ac816, type: 3}
   - {fileID: 304621586044033374, guid: 2b824d97e4f76964399b48d5eba0f62b, type: 3}
+  _asteroidPrefab: {fileID: 8059060814506152515, guid: 06b4c1c133f948841a7dac046bd57dd6,
+    type: 3}
   _stopSpawning: 0
 --- !u!4 &1789379065
 Transform:
