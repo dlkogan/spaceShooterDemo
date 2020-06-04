@@ -27,6 +27,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _score = 0;
     private UIManager _uiManager;
+    [SerializeField]
+    private GameObject _hurtL;
+    [SerializeField]
+    private GameObject _hurtR;
+    [SerializeField]
+    private AudioClip _shoot;
+    [SerializeField]
+    private AudioSource _audioSource;
 
 
     void Start()
@@ -54,14 +62,15 @@ public class Player : MonoBehaviour
     void shootLaser() {
         if(Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire) {
             _nextFire = Time.time + _fireRate;
-            if(_tripleShot) {
+            
+            if (_tripleShot) {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
             }
             else {
                 Instantiate(_laserPrefab, transform.position + new Vector3(0,1.05f,0), Quaternion.identity);
             }
+            _audioSource.PlayOneShot(_shoot);
 
- 
         }
         
 
@@ -98,6 +107,7 @@ public class Player : MonoBehaviour
 
     public void damage(int n) {
         if(!_shieldsUp) {
+            showDamage();
             _lives -= n;
             _uiManager.updateLives(_lives);
             if(_lives < 1) {
@@ -111,6 +121,35 @@ public class Player : MonoBehaviour
             return;
         }
 
+    }
+
+    public void showDamage()
+    {
+        //We will check to see if any damage visualizer is there
+        if(_lives == 3)
+        {
+            int num = Random.Range(0, 1);
+            if(num <= 0)
+            {
+                _hurtL.SetActive(true);
+            } else
+            {
+                _hurtR.SetActive(true);
+            }
+        }
+        else
+        {
+            if(_hurtL.activeSelf)
+            {
+                _hurtR.SetActive(true);
+            }
+            else
+            {
+                _hurtL.SetActive(true);
+            }
+        }
+        //If yes, make the other one visible
+        //else, randomly choose one
     }
 
     public void togglePowerup(string powerType) {
