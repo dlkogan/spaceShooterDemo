@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private AudioClip _shoot;
     [SerializeField]
     private AudioSource _audioSource;
+    private AudioSource _powerUpAudio;
 
 
     void Start()
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
         
         transform.position = new Vector3(0, -4.89f, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _powerUpAudio = GetComponent<AudioSource>();
         if(_spawnManager == null) {
             Debug.Log("SpawnManager is null");
         }
@@ -49,7 +51,10 @@ public class Player : MonoBehaviour
         if(_uiManager == null) {
             Debug.Log("ui manager is null");
         }
-        
+        if(_powerUpAudio == null)
+        {
+            Debug.Log("audioManager null in player");
+        }
     }
 
     // Update is called once per frame
@@ -168,7 +173,7 @@ public class Player : MonoBehaviour
         } else {
             Debug.Log("That's not a real powerup!");
         }
-
+        _powerUpAudio.Play();
         
 
     }

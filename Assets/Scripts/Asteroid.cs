@@ -36,7 +36,8 @@ public class Asteroid : MonoBehaviour
         if(other.tag == "Player") {
             other.transform.GetComponent<Player>().damage(1);
             Destroy(this.gameObject);
-
+            GameObject _newExplosion = Instantiate(_explosionPrefab, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+            Destroy(_newExplosion, 2f);
         }
         else if(other.tag == "Laser") {
             // GameObject _newExplosion = Instantiate(_explosionPrefab, new Vector3(this.position.x, this.position.y, this.position.z), Quaternion.Identity);
@@ -44,8 +45,10 @@ public class Asteroid : MonoBehaviour
             Destroy(_newExplosion, 2f);
             Destroy(this.gameObject);
             Destroy(other.gameObject);
+
             
         }
+ 
     }
 
 }
